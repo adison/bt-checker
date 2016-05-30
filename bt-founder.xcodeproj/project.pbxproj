@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B35370FE1CFC40BF00F6FA3B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B35370FD1CFC40BF00F6FA3B /* main.m */; };
+		B35371061CFC40D500F6FA3B /* BtDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B35371051CFC40D500F6FA3B /* BtDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,8 @@
 /* Begin PBXFileReference section */
 		B35370FA1CFC40BF00F6FA3B /* bt-founder */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "bt-founder"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B35370FD1CFC40BF00F6FA3B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B35371041CFC40D500F6FA3B /* BtDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BtDelegate.h; sourceTree = "<group>"; };
+		B35371051CFC40D500F6FA3B /* BtDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BtDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,8 @@
 			isa = PBXGroup;
 			children = (
 				B35370FD1CFC40BF00F6FA3B /* main.m */,
+				B35371041CFC40D500F6FA3B /* BtDelegate.h */,
+				B35371051CFC40D500F6FA3B /* BtDelegate.m */,
 			);
 			path = "bt-founder";
 			sourceTree = "<group>";
@@ -118,6 +123,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B35371061CFC40D500F6FA3B /* BtDelegate.m in Sources */,
 				B35370FE1CFC40BF00F6FA3B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
