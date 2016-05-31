@@ -29,10 +29,10 @@
 - (void)	deviceInquiryStarted:(IOBluetoothDeviceInquiry*)sender
 {
     NSLog(@"start inquiry..");
-    dispatch_async(dispatch_get_main_queue(), ^{
+//    dispatch_async(dispatch_get_main_queue(), ^{
         self.devices = [sender foundDevices];
         [delegate found];
-    });
+//    });
 }
 
 // deviceInquiryDeviceFound
@@ -42,10 +42,10 @@
     NSLog(@"found %@", new);
     //    [self addDeviceToList:device];
     //    [_messageText setObjectValue:[NSString stringWithFormat:@"Found %d devices...", [[sender foundDevices] count]]];
-    dispatch_async(dispatch_get_main_queue(), ^{
+//    dispatch_async(dispatch_get_main_queue(), ^{
         self.devices = [sender foundDevices];
         [delegate found];
-    });
+//    });
 }
 
 // deviceInquiryUpdatingDeviceNamesStarted
@@ -56,38 +56,44 @@
 //        NSLog(@"updating device name %@", [[sender foundDevices]objectAtIndex:i]);
 //    }
     //    self.devices = [sender foundDevices];
-    dispatch_async(dispatch_get_main_queue(), ^{
+//    dispatch_async(dispatch_get_main_queue(), ^{
         NSLog(@"updating device name %@", [[sender foundDevices]objectAtIndex:0]);
         self.devices = [sender foundDevices];
         [delegate found];
-    });
+//    });
 }
 
 // deviceInquiryDeviceNameUpdated
 
 - (void)	deviceInquiryDeviceNameUpdated:(IOBluetoothDeviceInquiry*)sender	device:(IOBluetoothDevice*)device devicesRemaining:(int)devicesRemaining
 {
-    NSLog(@"device name updated");
     //    [self	updateDeviceInfoInList:device];
-    dispatch_async(dispatch_get_main_queue(), ^{
+//    dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@"device name updated");
         
         self.devices = [sender foundDevices];
         [delegate found];
-    });
+//    });
 }
 
 // deviceInquiryComplete
 - (void)	deviceInquiryComplete:(IOBluetoothDeviceInquiry*)sender	error:(IOReturn)error	aborted:(BOOL)aborted
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
+//    dispatch_async(dispatch_get_main_queue(), ^{
+    
         self.devices = [sender foundDevices];
-    });
+//    });
     if( aborted ) {
         NSLog(@"inquiry stopped");
     }
     else {
         NSLog(@"inquiry complete");
     }
+}
+
+-(void)test {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.devices = [self.devices arrayByAddingObject:@"yoshi!"];
+    });
 }
 @end

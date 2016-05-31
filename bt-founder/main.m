@@ -11,7 +11,6 @@
 #define RESULT_FAIL "Result: FAIL;;\n"
 #define RESULT_PASS "Result: PASS;;\n"
 
-
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         
@@ -20,36 +19,31 @@ int main(int argc, const char * argv[]) {
         __block IOBluetoothDeviceInquiry *inquiry;
 
         BtDelegate *a = [[BtDelegate alloc] init];
-
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            inquiry = [IOBluetoothDeviceInquiry inquiryWithDelegate:a];
-            [inquiry start];
-        });
-
-        NSInteger counter = 0;
-        NSDate *now = [NSDate date];
-        NSDate *endTime = [NSDate dateWithTimeIntervalSinceNow:30];
         
-        while(keepRunning && [[NSDate date] compare:endTime] == NSOrderedAscending) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                if([[inquiry foundDevices] count] > 0) {
+        NSDate *now = [NSDate date];
+        NSDate *endTime = [NSDate dateWithTimeIntervalSinceNow:18];
+        
+        inquiry = [IOBluetoothDeviceInquiry inquiryWithDelegate:a];
+        [inquiry start];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSInteger counter = 0;
+            
+            while(keepRunning && [[NSDate date] compare:endTime] == NSOrderedAscending) {
+                if(a.devices.count > 0) {
                     keepRunning = false;
                     NSLog(@"got");
                 }
-                NSLog(@"waiting for inquery");
-            });
-            usleep(1000000);
-            NSLog(@"waiting %ld s", counter++);
-        }
-        NSLog(@"%@\n end:%@", now, endTime);
-        
-        [inquiry stop];
-        
-        if (a.devices.count > 0)
-            printf("%s", RESULT_PASS);
-        else
-            printf("No such device or no divce-name. \n%s", RESULT_FAIL);
+                usleep(1000000);
+                NSLog(@"waiting %ld s", counter++);
+            }
+
+            [inquiry stop];
+            NSLog(@"\nstart: %@\n end:%@", now, endTime);
+            
+        });
+
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:30]];
         return 0;
-        
     }
 }
