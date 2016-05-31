@@ -28,9 +28,11 @@
 
 - (void)	deviceInquiryStarted:(IOBluetoothDeviceInquiry*)sender
 {
-    self.devices = [sender foundDevices];
     NSLog(@"start inquiry..");
-    [delegate found];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.devices = [sender foundDevices];
+        [delegate found];
+    });
 }
 
 // deviceInquiryDeviceFound
@@ -38,22 +40,27 @@
 {
     NSArray *new = [self.devices arrayByAddingObject:device];
     NSLog(@"found %@", new);
-    self.devices = [sender foundDevices];
     //    [self addDeviceToList:device];
     //    [_messageText setObjectValue:[NSString stringWithFormat:@"Found %d devices...", [[sender foundDevices] count]]];
-    [delegate found];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.devices = [sender foundDevices];
+        [delegate found];
+    });
 }
 
 // deviceInquiryUpdatingDeviceNamesStarted
 - (void)	deviceInquiryUpdatingDeviceNamesStarted:(IOBluetoothDeviceInquiry*)sender	devicesRemaining:(int)devicesRemaining
 {
-    NSLog(@"updating device name %@", [[sender foundDevices]objectAtIndex:0]);
-    self.devices = [sender foundDevices];
+    
 //    for (NSUInteger i= 0, ii= [[sender foundDevices] count]; i< ii; i++) {
 //        NSLog(@"updating device name %@", [[sender foundDevices]objectAtIndex:i]);
 //    }
     //    self.devices = [sender foundDevices];
-    [delegate found];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@"updating device name %@", [[sender foundDevices]objectAtIndex:0]);
+        self.devices = [sender foundDevices];
+        [delegate found];
+    });
 }
 
 // deviceInquiryDeviceNameUpdated
@@ -61,15 +68,21 @@
 - (void)	deviceInquiryDeviceNameUpdated:(IOBluetoothDeviceInquiry*)sender	device:(IOBluetoothDevice*)device devicesRemaining:(int)devicesRemaining
 {
     NSLog(@"device name updated");
-    self.devices = [sender foundDevices];
     //    [self	updateDeviceInfoInList:device];
-    [delegate found];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        self.devices = [sender foundDevices];
+        [delegate found];
+    });
 }
 
 // deviceInquiryComplete
 - (void)	deviceInquiryComplete:(IOBluetoothDeviceInquiry*)sender	error:(IOReturn)error	aborted:(BOOL)aborted
 {
-    self.devices = [sender foundDevices];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        self.devices = [sender foundDevices];
+    });
     if( aborted ) {
         NSLog(@"inquiry stopped");
     }

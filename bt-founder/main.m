@@ -20,29 +20,25 @@ int main(int argc, const char * argv[]) {
         __block IOBluetoothDeviceInquiry *inquiry;
 
         BtDelegate *a = [[BtDelegate alloc] init];
-        
+
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             inquiry = [IOBluetoothDeviceInquiry inquiryWithDelegate:a];
             [inquiry start];
-            while (true) {
-                if([[inquiry foundDevices] count] > 0) {
-                    keepRunning = false;
-                    NSLog(@"got");
-                    break;
-                }
-                usleep(300000);
-                NSLog(@"waiting for inquery");
-            }
         });
-        
+
         NSInteger counter = 0;
         NSDate *now = [NSDate date];
         NSDate *endTime = [NSDate dateWithTimeIntervalSinceNow:30];
         
         while(keepRunning && [[NSDate date] compare:endTime] == NSOrderedAscending) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                if([[inquiry foundDevices] count] > 0) {
+                    keepRunning = false;
+                    NSLog(@"got");
+                }
+                NSLog(@"waiting for inquery");
+            });
             usleep(1000000);
-            if(a.devices.count > 0)
-                keepRunning = false;
             NSLog(@"waiting %ld s", counter++);
         }
         NSLog(@"%@\n end:%@", now, endTime);
