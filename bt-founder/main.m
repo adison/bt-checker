@@ -13,10 +13,8 @@
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        
-        __block bool keepRunning = true;
-        
         __block IOBluetoothDeviceInquiry *inquiry;
+        __block bool keepRunning = true;
 
         BtDelegate *a = [[BtDelegate alloc] init];
         
@@ -28,7 +26,7 @@ int main(int argc, const char * argv[]) {
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSInteger counter = 0;
-            
+
             while(keepRunning && [[NSDate date] compare:endTime] == NSOrderedAscending) {
                 if(a.devices.count > 0) {
                     keepRunning = false;
@@ -37,13 +35,14 @@ int main(int argc, const char * argv[]) {
                 usleep(1000000);
                 NSLog(@"waiting %ld s", counter++);
             }
-
             [inquiry stop];
-            NSLog(@"\nstart: %@\n end:%@", now, endTime);
             
+            NSLog(@"\nstart: %@\n end:%@", now, [NSDate date]);
         });
 
-        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:30]];
+        while (keepRunning) {
+            [[NSRunLoop currentRunLoop]runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+        }
         return 0;
     }
 }
