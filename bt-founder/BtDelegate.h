@@ -22,7 +22,6 @@
 
 @interface BtDelegate : NSObject <IOBluetoothDeviceInquiryDelegate>
 
-@property (nonatomic) __block NSArray *devices;
+@property (nonatomic) NSArray *devices;
 @property (weak) id<BtGetter> delegate;
--(void)test;
 @end

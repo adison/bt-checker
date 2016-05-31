@@ -32,9 +32,10 @@ int main(int argc, const char * argv[]) {
                     keepRunning = false;
                     NSLog(@"got");
                 }
-                usleep(1000000);
-                NSLog(@"waiting %ld s", counter++);
+                usleep(100000);
+                NSLog(@"waiting %.2f s", counter++/10.f);
             }
+            keepRunning = false;
             [inquiry stop];
             
             NSLog(@"\nstart: %@\n end:%@", now, [NSDate date]);
@@ -43,6 +44,7 @@ int main(int argc, const char * argv[]) {
         while (keepRunning) {
             [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
         }
+        
         return 0;
     }
 }
