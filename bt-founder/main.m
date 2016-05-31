@@ -41,7 +41,7 @@ int main(int argc, const char * argv[]) {
         });
 
         while (keepRunning) {
-            [[NSRunLoop currentRunLoop]runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
         }
         return 0;
     }
